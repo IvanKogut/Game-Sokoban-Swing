@@ -1,6 +1,8 @@
 package view;
 
 import controller.Controller;
+import controller.EventListener;
+import model.GameObjects;
 
 import javax.swing.*;
 
@@ -16,6 +18,10 @@ public class View extends JFrame {
         this.controller = controller;
     }
 
+    public void setEventListener(EventListener eventListener) {
+        field.setEventListener(eventListener);
+    }
+
     public void init() {
         field = new Field(this);
         add(field);
@@ -25,5 +31,13 @@ public class View extends JFrame {
         setLocationRelativeTo(null);
         setTitle("Sokoban");
         setVisible(true);
+    }
+
+    public void update() {
+        field.repaint();
+    }
+
+    public GameObjects getGameObjects() {
+        return controller.getGameObjects();
     }
 }

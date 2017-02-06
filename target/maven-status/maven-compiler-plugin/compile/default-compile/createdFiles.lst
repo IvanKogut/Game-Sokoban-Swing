@@ -1,3 +1,16 @@
-controller\Controller.class
 model\Model.class
+controller\Controller.class
+controller\EventListener.class
+model\GameObjects.class
 view\View.class
+model\Box.class
+model\LevelLoader.class
+model\Movable.class
+model\CollisionObject$1.class
+view\Field.class
+model\CollisionObject.class
+model\Player.class
+model\GameObject.class
+model\Wall.class
+model\Direction.class
+model\Home.class
