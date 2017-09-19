@@ -1,25 +1,32 @@
 package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.EventListener;
 
 /**
  * Created by Admin on 05.02.2017.
  */
+@Singleton
 public class Model {
 
     public static final int FIELD_SELL_SIZE = 20;
 
     private EventListener eventListener;
     private GameObjects gameObjects;
-    private int currentLevel = 1;
-    private LevelLoader levelLoader = new LevelLoader("/resources/data.properties");
+    private int currentLevel;
+    private LevelLoader levelLoader;
+
+    @Inject
+    public Model(EventListener eventListener, LevelLoader levelLoader, @Named("Current level") int currentLevel) {
+        this.eventListener = eventListener;
+        this.currentLevel = currentLevel;
+        this.levelLoader = levelLoader;
+    }
 
     public GameObjects getGameObjects() {
         return gameObjects;
-    }
-
-    public void setEventListener(EventListener eventListener) {
-        this.eventListener = eventListener;
     }
 
     public void restartLevel(int level) {

@@ -1,5 +1,8 @@
 package ua.kyiv.kpi.fpm.kogut.sokoban.view;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.EventListener;
 import ua.kyiv.kpi.fpm.kogut.sokoban.model.Direction;
 import ua.kyiv.kpi.fpm.kogut.sokoban.model.GameObject;
@@ -12,6 +15,7 @@ import java.awt.event.KeyEvent;
 /**
  * Created by Admin on 06.02.2017.
  */
+@Singleton
 public class Field extends JPanel {
 
     public class KeyHandler extends KeyAdapter {
@@ -41,15 +45,13 @@ public class Field extends JPanel {
     private View view;
     private EventListener eventListener;
 
-    public Field(View view) {
+    @Inject
+    public Field(@Assisted View view, EventListener eventListener) {
         this.view = view;
+        this.eventListener = eventListener;
 
         addKeyListener(new KeyHandler());
         setFocusable(true);
-    }
-
-    public void setEventListener(EventListener eventListener) {
-        this.eventListener = eventListener;
     }
 
     public void paint(Graphics g) {
@@ -59,5 +61,9 @@ public class Field extends JPanel {
         for (GameObject gameObject : view.getGameObjects().getAll()) {
             gameObject.draw(g);
         }
+    }
+
+    public interface FieldFactory {
+        Field create(View view);
     }
 }

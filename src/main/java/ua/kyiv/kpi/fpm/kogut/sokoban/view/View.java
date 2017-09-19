@@ -1,5 +1,8 @@
 package ua.kyiv.kpi.fpm.kogut.sokoban.view;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.Controller;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.EventListener;
 import ua.kyiv.kpi.fpm.kogut.sokoban.model.GameObjects;
@@ -9,21 +12,19 @@ import javax.swing.*;
 /**
  * Created by Admin on 05.02.2017.
  */
+@Singleton
 public class View extends JFrame {
 
     private Controller controller;
     private Field field;
 
-    public View(Controller controller) {
+    @Inject
+    public View(@Assisted Controller controller, Field.FieldFactory fieldFactory) {
         this.controller = controller;
-    }
-
-    public void setEventListener(EventListener eventListener) {
-        field.setEventListener(eventListener);
+        this.field = fieldFactory.create(this);
     }
 
     public void init() {
-        field = new Field(this);
         add(field);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -51,5 +52,9 @@ public class View extends JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
 
         controller.startNextLevel();
+    }
+
+    public interface ViewFactory {
+        View create(Controller controller);
     }
 }

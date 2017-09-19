@@ -1,5 +1,9 @@
 package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,11 +13,13 @@ import java.util.*;
 /**
  * Created by Admin on 06.02.2017.
  */
+@Singleton
 public class LevelLoader {
 
     private String pathToPropertiesFile;
 
-    public LevelLoader(String pathToPropertiesFile) {
+    @Inject
+    public LevelLoader(@Named("Path to properties file") String pathToPropertiesFile) {
         this.pathToPropertiesFile = pathToPropertiesFile;
     }
 
