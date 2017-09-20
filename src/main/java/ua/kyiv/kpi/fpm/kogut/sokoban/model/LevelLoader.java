@@ -17,9 +17,11 @@ import java.util.*;
 public class LevelLoader {
 
     private String pathToPropertiesFile;
+    private GameObjectFactory gameObjectFactory;
 
     @Inject
-    public LevelLoader(@Named("Path to properties file") String pathToPropertiesFile) {
+    public LevelLoader(GameObjectFactory gameObjectFactory, @Named("Path to properties file") String pathToPropertiesFile) {
+        this.gameObjectFactory = gameObjectFactory;
         this.pathToPropertiesFile = pathToPropertiesFile;
     }
 
@@ -66,25 +68,25 @@ public class LevelLoader {
                 for (int n = 0; n < lengthX; n++) {
                     switch (strings.get(m).substring(n, n + 1)) {
                         case "X":
-                            Wall wall = new Wall(x, y);
+                            Wall wall = gameObjectFactory.getWall(x, y);
                             walls.add(wall);
                             break;
                         case "*":
-                            Box box = new Box(x, y);
+                            Box box = gameObjectFactory.getBox(x, y);
                             boxes.add(box);
                             break;
                         case ".":
-                            Home home = new Home(x, y);
+                            Home home = gameObjectFactory.getHome(x, y);
                             homes.add(home);
                             break;
                         case "&":
-                            home = new Home(x, y);
-                            box = new Box(x, y);
+                            home = gameObjectFactory.getHome(x, y);
+                            box = gameObjectFactory.getBox(x, y);
                             homes.add(home);
                             boxes.add(box);
                             break;
                         case "@":
-                            player = new Player(x, y);
+                            player = gameObjectFactory.getPlayer(x, y);
                             break;
                     }
 

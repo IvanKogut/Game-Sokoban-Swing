@@ -1,0 +1,27 @@
+package ua.kyiv.kpi.fpm.kogut.sokoban.model;
+
+/**
+ * Created by i.kohut on 9/20/2017.
+ */
+public class GameObjectFactoryImpl implements GameObjectFactory {
+
+    @Override
+    public Player getPlayer(int x, int y) {
+        return new Player(x, y);
+    }
+
+    @Override
+    public Wall getWall(int x, int y) {
+        return new Wall(x, y);
+    }
+
+    @Override
+    public Box getBox(int x, int y) {
+        return new Box(x, y);
+    }
+
+    @Override
+    public Home getHome(int x, int y) {
+        return new Home(x, y);
+    }
+}
