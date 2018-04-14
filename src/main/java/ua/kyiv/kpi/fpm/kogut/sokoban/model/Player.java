@@ -2,9 +2,6 @@ package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
 import java.awt.*;
 
-/**
- * Created by Admin on 06.02.2017.
- */
 public class Player extends CollisionObject implements Movable {
 
     public Player(int x, int y) {

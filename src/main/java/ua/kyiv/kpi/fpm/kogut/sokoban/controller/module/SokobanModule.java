@@ -5,13 +5,11 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.Controller;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.EventListener;
-import ua.kyiv.kpi.fpm.kogut.sokoban.model.*;
+import ua.kyiv.kpi.fpm.kogut.sokoban.model.GameObjectFactory;
+import ua.kyiv.kpi.fpm.kogut.sokoban.model.GameObjectFactoryImpl;
 import ua.kyiv.kpi.fpm.kogut.sokoban.view.Field;
 import ua.kyiv.kpi.fpm.kogut.sokoban.view.View;
 
-/**
- * Created by i.kohut on 9/18/2017.
- */
 public class SokobanModule extends AbstractModule {
 
     @Override

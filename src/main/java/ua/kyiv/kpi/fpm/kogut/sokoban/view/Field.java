@@ -12,11 +12,32 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-/**
- * Created by Admin on 06.02.2017.
- */
 @Singleton
 public class Field extends JPanel {
+
+    private View view;
+    private EventListener eventListener;
+    @Inject
+    public Field(@Assisted View view, EventListener eventListener) {
+        this.view = view;
+        this.eventListener = eventListener;
+
+        addKeyListener(new KeyHandler());
+        setFocusable(true);
+    }
+
+    public void paint(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, view.getWidth(), view.getHeight());
+
+        for (GameObject gameObject : view.getGameObjects().getAll()) {
+            gameObject.draw(g);
+        }
+    }
+
+    public interface FieldFactory {
+        Field create(View view);
+    }
 
     public class KeyHandler extends KeyAdapter {
 
@@ -40,30 +61,5 @@ public class Field extends JPanel {
                     break;
             }
         }
-    }
-
-    private View view;
-    private EventListener eventListener;
-
-    @Inject
-    public Field(@Assisted View view, EventListener eventListener) {
-        this.view = view;
-        this.eventListener = eventListener;
-
-        addKeyListener(new KeyHandler());
-        setFocusable(true);
-    }
-
-    public void paint(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, view.getWidth(), view.getHeight());
-
-        for (GameObject gameObject : view.getGameObjects().getAll()) {
-            gameObject.draw(g);
-        }
-    }
-
-    public interface FieldFactory {
-        Field create(View view);
     }
 }

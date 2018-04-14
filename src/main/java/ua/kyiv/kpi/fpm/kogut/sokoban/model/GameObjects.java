@@ -3,9 +3,6 @@ package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Admin on 06.02.2017.
- */
 public class GameObjects {
 
     private Player player;

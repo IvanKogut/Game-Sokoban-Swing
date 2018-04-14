@@ -11,9 +11,6 @@ import ua.kyiv.kpi.fpm.kogut.sokoban.view.View;
 
 import javax.inject.Inject;
 
-/**
- * Created by Admin on 05.02.2017.
- */
 @Singleton
 public class Controller implements EventListener {
 
@@ -27,6 +24,11 @@ public class Controller implements EventListener {
 
         model.restart();
         view.init();
+    }
+
+    public static void main(String[] args) {
+        Injector injector = Guice.createInjector(new SokobanModule());
+        injector.getInstance(Controller.class);
     }
 
     @Override
@@ -54,11 +56,5 @@ public class Controller implements EventListener {
 
     public GameObjects getGameObjects() {
         return model.getGameObjects();
-    }
-
-    public static void main(String[] args) {
-
-        Injector injector = Guice.createInjector(new SokobanModule());
-        Controller controller = injector.getInstance(Controller.class);
     }
 }

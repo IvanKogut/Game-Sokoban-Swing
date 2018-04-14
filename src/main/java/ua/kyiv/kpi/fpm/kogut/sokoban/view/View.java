@@ -4,14 +4,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.Controller;
-import ua.kyiv.kpi.fpm.kogut.sokoban.controller.EventListener;
 import ua.kyiv.kpi.fpm.kogut.sokoban.model.GameObjects;
 
 import javax.swing.*;
 
-/**
- * Created by Admin on 05.02.2017.
- */
 @Singleton
 public class View extends JFrame {
 

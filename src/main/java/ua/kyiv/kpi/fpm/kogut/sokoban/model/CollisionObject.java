@@ -1,8 +1,5 @@
 package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
-/**
- * Created by Admin on 06.02.2017.
- */
 public abstract class CollisionObject extends GameObject {
 
     public CollisionObject(int x, int y) {

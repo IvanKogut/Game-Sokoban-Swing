@@ -1,8 +1,5 @@
 package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
-/**
- * Created by i.kohut on 9/20/2017.
- */
 public class GameObjectFactoryImpl implements GameObjectFactory {
 
     @Override

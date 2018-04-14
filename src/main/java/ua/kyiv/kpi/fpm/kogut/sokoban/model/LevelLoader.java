@@ -10,9 +10,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-/**
- * Created by Admin on 06.02.2017.
- */
 @Singleton
 public class LevelLoader {
 

@@ -2,9 +2,6 @@ package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
 import java.awt.*;
 
-/**
- * Created by Admin on 06.02.2017.
- */
 public class Box extends CollisionObject implements Movable {
 
     public Box(int x, int y) {

@@ -5,9 +5,6 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.EventListener;
 
-/**
- * Created by Admin on 05.02.2017.
- */
 @Singleton
 public class Model {
 
