@@ -5,8 +5,8 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.Controller;
 import ua.kyiv.kpi.fpm.kogut.sokoban.controller.EventListener;
+import ua.kyiv.kpi.fpm.kogut.sokoban.model.DefaultGameObjectFactory;
 import ua.kyiv.kpi.fpm.kogut.sokoban.model.GameObjectFactory;
-import ua.kyiv.kpi.fpm.kogut.sokoban.model.GameObjectFactoryImpl;
 import ua.kyiv.kpi.fpm.kogut.sokoban.view.Field;
 import ua.kyiv.kpi.fpm.kogut.sokoban.view.View;
 
@@ -25,7 +25,7 @@ public class SokobanModule extends AbstractModule {
                 .implement(Field.class, Field.class)
                 .build(Field.FieldFactory.class));
 
-        bind(GameObjectFactory.class).to(GameObjectFactoryImpl.class);
+        bind(GameObjectFactory.class).to(DefaultGameObjectFactory.class);
 
         bind(String.class)
                 .annotatedWith(Names.named("Path to properties file"))

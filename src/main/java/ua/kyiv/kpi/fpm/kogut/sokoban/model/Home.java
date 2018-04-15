@@ -2,10 +2,12 @@ package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
 import java.awt.*;
 
-public class Home extends GameObject {
+class Home extends GameObject {
 
-    public Home(int x, int y) {
-        super(x, y, 2, 2);
+    private static final int DEFAULT_DIMENSION = 2;
+
+    Home(int x, int y) {
+        super(x, y, DEFAULT_DIMENSION, DEFAULT_DIMENSION);
     }
 
     @Override

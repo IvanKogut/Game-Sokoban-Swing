@@ -2,9 +2,9 @@ package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
 import java.awt.*;
 
-public class Wall extends CollisionObject {
+class Wall extends CollisionObject {
 
-    public Wall(int x, int y) {
+    Wall(int x, int y) {
         super(x, y);
     }
 

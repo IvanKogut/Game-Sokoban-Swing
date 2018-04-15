@@ -96,6 +96,6 @@ public class LevelLoader {
             System.exit(0);
         }
 
-        return new GameObjects(walls, boxes, homes, player);
+        return new GameObjects(player, walls, homes, boxes);
     }
 }

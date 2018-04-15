@@ -1,12 +1,12 @@
 package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
-public abstract class CollisionObject extends GameObject {
+abstract class CollisionObject extends GameObject {
 
-    public CollisionObject(int x, int y) {
+    CollisionObject(int x, int y) {
         super(x, y);
     }
 
-    public boolean isCollision(GameObject gameObject, Direction direction) {
+    boolean isCollision(GameObject gameObject, Direction direction) {
 
         int xAfterMove = getX();
         int yAfterMove = getY();

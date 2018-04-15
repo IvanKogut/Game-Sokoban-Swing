@@ -101,20 +101,25 @@ public class Model {
         }
     }
 
-    private void moveDirection(GameObject gameObject, Direction direction, int value) {
+    private void moveDirection(Movable movableObject, Direction direction, int value) {
+        int deltaX = 0;
+        int deltaY = 0;
+
         switch (direction) {
             case LEFT:
-                gameObject.setX(gameObject.getX() - value);
+                deltaX = -value;
                 break;
             case RIGHT:
-                gameObject.setX(gameObject.getX() + value);
+                deltaX = value;
                 break;
             case UP:
-                gameObject.setY(gameObject.getY() - value);
+                deltaY = -value;
                 break;
             case DOWN:
-                gameObject.setY(gameObject.getY() + value);
+                deltaY = value;
                 break;
         }
+
+        movableObject.move(deltaX, deltaY);
     }
 }

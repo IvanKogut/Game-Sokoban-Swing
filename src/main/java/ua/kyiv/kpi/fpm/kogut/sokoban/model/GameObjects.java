@@ -1,8 +1,11 @@
 package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
+import lombok.AllArgsConstructor;
+
 import java.util.HashSet;
 import java.util.Set;
 
+@AllArgsConstructor
 public class GameObjects {
 
     private Player player;
@@ -10,29 +13,22 @@ public class GameObjects {
     private Set<Home> homes;
     private Set<Box> boxes;
 
-    public GameObjects(Set<Wall> walls, Set<Box> boxes, Set<Home> homes, Player player) {
-        this.player = player;
-        this.walls = walls;
-        this.homes = homes;
-        this.boxes = boxes;
-    }
-
-    public Player getPlayer()
+    Player getPlayer()
     {
         return player;
     }
 
-    public Set<Wall> getWalls()
+    Set<Wall> getWalls()
     {
         return walls;
     }
 
-    public Set<Home> getHomes()
+    Set<Home> getHomes()
     {
         return homes;
     }
 
-    public Set<Box> getBoxes()
+    Set<Box> getBoxes()
     {
         return boxes;
     }

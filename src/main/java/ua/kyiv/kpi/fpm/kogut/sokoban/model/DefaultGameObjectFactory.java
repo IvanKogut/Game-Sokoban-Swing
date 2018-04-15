@@ -1,6 +1,6 @@
 package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
-public class GameObjectFactoryImpl implements GameObjectFactory {
+public class DefaultGameObjectFactory implements GameObjectFactory {
 
     @Override
     public Player getPlayer(int x, int y) {

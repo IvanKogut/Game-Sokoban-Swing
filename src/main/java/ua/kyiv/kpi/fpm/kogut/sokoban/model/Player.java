@@ -2,9 +2,9 @@ package ua.kyiv.kpi.fpm.kogut.sokoban.model;
 
 import java.awt.*;
 
-public class Player extends CollisionObject implements Movable {
+class Player extends CollisionObject implements Movable {
 
-    public Player(int x, int y) {
+    Player(int x, int y) {
         super(x, y);
     }
 
@@ -17,11 +17,5 @@ public class Player extends CollisionObject implements Movable {
 
         graphics.drawOval(leftUpperCornerX, leftUpperCornerY, getWidth(), getHeight());
         graphics.fillOval(leftUpperCornerX, leftUpperCornerY, getWidth(), getHeight());
-    }
-
-    @Override
-    public void move(int x, int y) {
-        setX(getX() + x);
-        setY(getY() + y);
     }
 }
