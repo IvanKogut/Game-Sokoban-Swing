@@ -10,24 +10,21 @@ public class Model {
 
     public static final int FIELD_SELL_SIZE = 20;
 
-    private EventListener eventListener;
-    private GameObjects gameObjects;
+    private final EventListener eventListener;
+    private final LevelLoader levelLoader;
+
     private int currentLevel;
-    private LevelLoader levelLoader;
+    private GameObjects gameObjects;
 
     @Inject
     public Model(EventListener eventListener, LevelLoader levelLoader, @Named("Current level") int currentLevel) {
         this.eventListener = eventListener;
-        this.currentLevel = currentLevel;
         this.levelLoader = levelLoader;
+        this.currentLevel = currentLevel;
     }
 
     public GameObjects getGameObjects() {
         return gameObjects;
-    }
-
-    public void restartLevel(int level) {
-        gameObjects = levelLoader.getLevel(level);
     }
 
     public void restart() {
@@ -38,16 +35,22 @@ public class Model {
         restartLevel(++currentLevel);
     }
 
+    private void restartLevel(int level) {
+        gameObjects = levelLoader.getGameObjects(level);
+    }
+
     public void move(Direction direction) {
-        if (checkWallCollision(gameObjects.getPlayer(), direction) || checkBoxCollision(direction)) {
+        final Player player = gameObjects.getPlayer();
+
+        if (checkWallCollision(player, direction) || checkBoxCollision(player, direction)) {
             return;
         }
 
-        moveDirection(gameObjects.getPlayer(), direction, Model.FIELD_SELL_SIZE);
+        moveDirection(player, direction, Model.FIELD_SELL_SIZE);
         checkCompletion();
     }
 
-    public boolean checkWallCollision(CollisionObject gameObject, Direction direction) {
+    private boolean checkWallCollision(CollisionObject gameObject, Direction direction) {
         for (GameObject object : gameObjects.getWalls()) {
             if (gameObject.isCollision(object, direction)) {
                 return true;
@@ -56,12 +59,11 @@ public class Model {
         return false;
     }
 
-    public boolean checkBoxCollision(Direction direction) {
-        Player player = gameObjects.getPlayer();
+    private boolean checkBoxCollision(CollisionObject collisionObject, Direction direction) {
         Box collisionBox = null;
 
         for (Box box : gameObjects.getBoxes()) {
-            if (player.isCollision(box, direction)) {
+            if (collisionObject.isCollision(box, direction)) {
                 collisionBox = box;
                 if (checkWallCollision(box, direction)) {
                     return true;
@@ -83,7 +85,7 @@ public class Model {
         return false;
     }
 
-    public void checkCompletion() {
+    private void checkCompletion() {
         boolean completion = true;
 
         for (Home home : gameObjects.getHomes()) {
@@ -91,6 +93,7 @@ public class Model {
             for (Box box : gameObjects.getBoxes()) {
                 if (home.getX() == box.getX() && home.getY() == box.getY()) {
                     inPlace = true;
+                    break;
                 }
             }
             completion &= inPlace;

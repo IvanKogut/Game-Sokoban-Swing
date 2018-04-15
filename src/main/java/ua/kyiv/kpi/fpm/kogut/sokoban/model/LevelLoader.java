@@ -11,91 +11,94 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 @Singleton
-public class LevelLoader {
+class LevelLoader {
 
-    private String pathToPropertiesFile;
-    private GameObjectFactory gameObjectFactory;
+    private final GameObjectFactory gameObjectFactory;
+    private final Map<Integer, GameObjects> levels;
 
     @Inject
     public LevelLoader(GameObjectFactory gameObjectFactory, @Named("Path to properties file") String pathToPropertiesFile) {
         this.gameObjectFactory = gameObjectFactory;
-        this.pathToPropertiesFile = pathToPropertiesFile;
+        this.levels = new HashMap<>();
+
+        initLevels(pathToPropertiesFile);
     }
 
-    public GameObjects getLevel(int level) {
-
-        Properties properties = new Properties();
+    private String getPathToSavedLevels(final String pathToPropertiesFile) {
         try {
+            final Properties properties = new Properties();
             properties.load(getClass().getResourceAsStream(pathToPropertiesFile));
+            return (String) properties.get("path");
         } catch (IOException e) {
-            System.exit(0);
+            throw new RuntimeException("Error during loading path to levels.", e);
         }
+    }
 
-        int levelValue = level;
-
-        if (levelValue > 60) {
-            levelValue %= 60;
-        }
-
-        Player player = null;
-        Set<Wall> walls = new HashSet<>();
-        Set<Box> boxes = new HashSet<>();
-        Set<Home> homes = new HashSet<>();
-
-        try (InputStream inputStream =  getClass().getResourceAsStream((String) properties.get("path"));
+    private void initLevels(final String pathToPropertiesFile) {
+        try (InputStream inputStream = getClass().getResourceAsStream(getPathToSavedLevels(pathToPropertiesFile));
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
 
-            List<String> strings = new ArrayList<>();
+            final List<String> stringRows = new ArrayList<>();
             while (reader.ready()) {
-                strings.add(reader.readLine());
+                stringRows.add(reader.readLine());
             }
 
-            int i;
-            for (i = 0; i < strings.size(); i++) {
-                if (strings.get(i).startsWith("Maze:") && strings.get(i).split(" ")[1].equals("" + levelValue)) {
-                    break;
-                }
-            }
-            int lengthX = Integer.parseInt(strings.get(i+2).split(" ")[2]);
-            int lengthY = Integer.parseInt(strings.get(i+3).split(" ")[2]);
+            for (int i = 0; i < stringRows.size(); i++) {
+                if (stringRows.get(i).startsWith("Maze:")) {
+                    Player player = null;
+                    final Set<Wall> walls = new HashSet<>();
+                    final Set<Box> boxes = new HashSet<>();
+                    final Set<Home> homes = new HashSet<>();
 
-            int x = Model.FIELD_SELL_SIZE / 2;
-            int y = Model.FIELD_SELL_SIZE / 2;
-            for (int m = i + 7; m <= i + 6 + lengthY; m++) {
-                for (int n = 0; n < lengthX; n++) {
-                    switch (strings.get(m).substring(n, n + 1)) {
-                        case "X":
-                            Wall wall = gameObjectFactory.getWall(x, y);
-                            walls.add(wall);
-                            break;
-                        case "*":
-                            Box box = gameObjectFactory.getBox(x, y);
-                            boxes.add(box);
-                            break;
-                        case ".":
-                            Home home = gameObjectFactory.getHome(x, y);
-                            homes.add(home);
-                            break;
-                        case "&":
-                            home = gameObjectFactory.getHome(x, y);
-                            box = gameObjectFactory.getBox(x, y);
-                            homes.add(home);
-                            boxes.add(box);
-                            break;
-                        case "@":
-                            player = gameObjectFactory.getPlayer(x, y);
-                            break;
+                    final int level = Integer.valueOf(stringRows.get(i).split(" ")[1]);
+
+                    int lengthX = Integer.parseInt(stringRows.get(i + 2).split(" ")[2]);
+                    int lengthY = Integer.parseInt(stringRows.get(i + 3).split(" ")[2]);
+
+                    int x = Model.FIELD_SELL_SIZE / 2;
+                    int y = Model.FIELD_SELL_SIZE / 2;
+
+                    for (int m = i + 7; m <= i + 6 + lengthY; m++) {
+                        for (int n = 0; n < lengthX; n++) {
+                            switch (stringRows.get(m).substring(n, n + 1)) {
+                                case "X":
+                                    walls.add(gameObjectFactory.getWall(x, y));
+                                    break;
+                                case "*":
+                                    boxes.add(gameObjectFactory.getBox(x, y));
+                                    break;
+                                case ".":
+                                    homes.add(gameObjectFactory.getHome(x, y));
+                                    break;
+                                case "&":
+                                    homes.add(gameObjectFactory.getHome(x, y));
+                                    boxes.add(gameObjectFactory.getBox(x, y));
+                                    break;
+                                case "@":
+                                    player = gameObjectFactory.getPlayer(x, y);
+                                    break;
+                            }
+
+                            x += Model.FIELD_SELL_SIZE;
+                        }
+                        x = Model.FIELD_SELL_SIZE / 2;
+                        y += Model.FIELD_SELL_SIZE;
                     }
 
-                    x += Model.FIELD_SELL_SIZE;
+                    levels.put(level, new GameObjects(player, walls, homes, boxes));
                 }
-                x = Model.FIELD_SELL_SIZE / 2;
-                y += Model.FIELD_SELL_SIZE;
             }
         } catch (IOException e) {
-            System.exit(0);
+            throw new RuntimeException("Error during loading levels", e);
+        }
+    }
+
+    GameObjects getGameObjects(int level) {
+        final int levelNumber = levels.size();
+        if (level > levelNumber) {
+            level %= levelNumber;
         }
 
-        return new GameObjects(player, walls, homes, boxes);
+        return levels.get(level);
     }
 }
