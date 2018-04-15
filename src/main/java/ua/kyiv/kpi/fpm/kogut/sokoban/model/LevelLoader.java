@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Singleton
 class LevelLoader {
@@ -22,6 +24,13 @@ class LevelLoader {
         this.levels = new HashMap<>();
 
         initLevels(pathToPropertiesFile);
+    }
+
+    private static <T extends GameObject> Set<T> copy(Set<T> objects, Function<T, T> copyFunction) {
+        return objects
+                .stream()
+                .map(copyFunction)
+                .collect(Collectors.toSet());
     }
 
     private String getPathToSavedLevels(final String pathToPropertiesFile) {
@@ -99,6 +108,25 @@ class LevelLoader {
             level %= levelNumber;
         }
 
-        return levels.get(level);
+        return getCopyOf(levels.get(level));
+    }
+
+    private GameObjects getCopyOf(GameObjects gameObjects) {
+        final Player player = gameObjects.getPlayer();
+        final Player copiedPlayer = gameObjectFactory.getPlayer(player.getX(), player.getY());
+
+        final Set<Box> copiedBoxes = copy(
+                gameObjects.getBoxes(), box -> gameObjectFactory.getBox(box.getX(), box.getY())
+        );
+
+        final Set<Wall> copiedWalls = copy(
+                gameObjects.getWalls(), wall -> gameObjectFactory.getWall(wall.getX(), wall.getY())
+        );
+
+        final Set<Home> copiedHomes = copy(
+                gameObjects.getHomes(), home -> gameObjectFactory.getHome(home.getX(), home.getY())
+        );
+
+        return new GameObjects(copiedPlayer, copiedWalls, copiedHomes, copiedBoxes);
     }
 }
