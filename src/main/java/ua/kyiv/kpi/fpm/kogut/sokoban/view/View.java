@@ -11,8 +11,8 @@ import javax.swing.*;
 @Singleton
 public class View extends JFrame {
 
-    private Controller controller;
-    private Field field;
+    private final Controller controller;
+    private final Field field;
 
     @Inject
     public View(@Assisted Controller controller, Field.FieldFactory fieldFactory) {
@@ -34,13 +34,11 @@ public class View extends JFrame {
         field.repaint();
     }
 
-    public GameObjects getGameObjects() {
+    GameObjects getGameObjects() {
         return controller.getGameObjects();
     }
 
     public void completed(int level) {
-        update();
-
         JOptionPane.showMessageDialog(
                 this,
                 "Рівень " + level + " пройдений!",

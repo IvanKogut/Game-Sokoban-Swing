@@ -14,8 +14,8 @@ import javax.inject.Inject;
 @Singleton
 public class Controller implements EventListener {
 
-    private View view;
-    private Model model;
+    private final View view;
+    private final Model model;
 
     @Inject
     public Controller(View.ViewFactory viewFactory, Model model) {
@@ -27,7 +27,7 @@ public class Controller implements EventListener {
     }
 
     public static void main(String[] args) {
-        Injector injector = Guice.createInjector(new SokobanModule());
+        final Injector injector = Guice.createInjector(new SokobanModule());
         injector.getInstance(Controller.class);
     }
 
@@ -51,6 +51,7 @@ public class Controller implements EventListener {
 
     @Override
     public void levelCompleted(int level) {
+        view.update();
         view.completed(level);
     }
 
